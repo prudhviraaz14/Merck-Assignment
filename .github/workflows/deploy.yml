@@ -13,7 +13,7 @@ jobs:
       contents: read
     env:
       AWS_REGION: us-east-1
-      ECR_REPOSITORY: my-ecr-repo  # Update with your repository name
+      ECR_REPOSITORY: merck-python-app
       IMAGE_TAG: ${{ github.sha }}
       CFN_STACK_NAME: my-api-stack
     steps:

@@ -62,6 +62,6 @@ jobs:
           name: ${{ env.CFN_STACK_NAME }}
           template: ./cloudformation.yaml  # Ensure your template file is named accordingly
           no-fail-on-empty-changeset: true
-          parameter-overrides: ImageUri=${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+          parameter-overrides: ImageUri=${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           region: ${{ env.AWS_REGION }}
           capabilities: CAPABILITY_NAMED_IAM

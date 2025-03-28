@@ -54,7 +54,7 @@ jobs:
           docker push ${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
 
       - name: Debug - Print ECR imageURI
-        run: echo "ECR imageURI is ${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG"
+        run: echo "ECR imageURI is \"${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG\""
 
       - name: Deploy CloudFormation stack
         uses: aws-actions/aws-cloudformation-github-deploy@v1

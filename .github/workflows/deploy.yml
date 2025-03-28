@@ -1,0 +1,50 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: us-east-1
+      ECR_REPOSITORY: my-ecr-repo  # Update with your repository name
+      IMAGE_TAG: ${{ github.sha }}
+      CFN_STACK_NAME: my-api-stack
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Login to Amazon ECR
+        id: ecr_login
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: ${{ env.AWS_REGION }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+      
+      - name: Tag Docker image
+        run: |
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG ${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+
+      - name: Deploy CloudFormation stack
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: ${{ env.CFN_STACK_NAME }}
+          template: ./cloudformation.yaml  # Ensure your template file is named accordingly
+          no-fail-on-empty-changeset: true
+          parameters: ImageUri=${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
+          region: ${{ env.AWS_REGION }}

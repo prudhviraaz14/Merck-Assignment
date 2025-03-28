@@ -64,3 +64,4 @@ jobs:
           no-fail-on-empty-changeset: true
           parameter-overrides: ImageUri=${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:$IMAGE_TAG
           region: ${{ env.AWS_REGION }}
+          capabilities: CAPABILITY_NAMED_IAM

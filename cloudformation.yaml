@@ -203,7 +203,7 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: !Sub "/ecs/${AWS::StackName}"
-      RetentionInDays: 2
+      RetentionInDays: 3
 
   # ECS Task Definition
   TaskDefinition:

@@ -60,7 +60,7 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: ${{ env.CFN_STACK_NAME }}
-          template: ./cloudformation.yaml  # Ensure your template file is named accordingly
+          template: ./cloudformation.yaml
           no-fail-on-empty-changeset: true
           parameter-overrides: ImageUri=${{ steps.ecr_login.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           region: ${{ env.AWS_REGION }}

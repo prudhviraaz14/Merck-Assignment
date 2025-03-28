@@ -37,6 +37,9 @@ jobs:
         with:
           region: ${{ env.AWS_REGION }}
 
+      - name: Debug - Print ECR Registry URL
+        run: echo "ECR registry URL is ${{ steps.ecr_login.outputs.registry }}"
+
       - name: Build Docker image
         run: |
           cd app

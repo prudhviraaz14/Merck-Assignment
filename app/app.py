@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, abort
 
 app = Flask(__name__)
-API_TOKEN = "mysecrettoken"  # In production, secure this appropriately
+API_TOKEN = "mysecrettoken"  # just a comment
 
 def authenticate():
     token = request.headers.get("Authorization")
